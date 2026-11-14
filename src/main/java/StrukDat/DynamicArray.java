@@ -112,7 +112,7 @@ public class DynamicArray<T> implements StrukturData<T> {
         }
     }
 
-    private boolean validateInvariant() {
+    public boolean validateInvariant() {
         if (elements == null) return false;
         if (size < 0 || size > elements.length) return false;
         for (int i = 0; i < size; i++) {
