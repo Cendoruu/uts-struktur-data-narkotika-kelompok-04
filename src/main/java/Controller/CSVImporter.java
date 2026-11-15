@@ -12,7 +12,7 @@ public class CSVImporter {
     public static DynamicArray<Putusan> loadCSV(String filePath) {
         DynamicArray<Putusan> dataset = new DynamicArray<>(55);
         int lineNum = 0;
-        int succesCount = 0;
+        int successCount = 0;
         int failCount = 0;
 
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
@@ -55,7 +55,7 @@ public class CSVImporter {
                             keadaanMeringankan, sourcePages);
 
                     dataset.add(p);
-                    succesCount++;
+                    successCount++;
                 } catch (Exception e) {
                     failCount++;
                     System.err.printf("[PERINGATAN IMPOR] Baris %d ditolak: %s (Pesan: %s)\n", lineNum, line, e.getMessage());
@@ -65,12 +65,12 @@ public class CSVImporter {
             System.err.printf("Gagal membaca file CSV: " + e.getMessage());
         }
 
-        System.out.println("\"[INFO IMPOR SELESAI] Berhasil memuat: %d record, Ditolak: %d record.\\n\", successCount, failCount");
+        System.out.printf("[INFO IMPOR SELESAI] Berhasil memuat: %d record, Ditolak: %d record.\n", successCount, failCount);
         return dataset;
     }
 
     //Parsing CSV manual untuk menangani koma di dalam tanda petik ganda
-    private static String[] parseCsvLine(String line) {
+    public static String[] parseCsvLine(String line) {
         DynamicArray<String> tokens = new DynamicArray<>();
         StringBuilder sb = new StringBuilder();
         boolean inQuotes = false;
