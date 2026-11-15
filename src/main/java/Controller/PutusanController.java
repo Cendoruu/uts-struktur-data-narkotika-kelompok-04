@@ -224,26 +224,24 @@ public class PutusanController {
         //Skenario 6 (Tunjukkan bahwa pencarian pada Stack atau Queue tidak mengubah urutan akhir.)
         System.out.println("\n--- SKENARIO 6 ---");
         int stackSizeBefore = auditLog.size();
+        AuditEntry topBefore = auditLog.peek();
         DynamicArray<AuditEntry> history = auditLog.getElementsPreserved();
         int stackSizeAfter = auditLog.size();
-        System.out.println("Ukuran Stack sebelum Inspeksi: " + stackSizeBefore);
-        System.out.println("Ukuran Stack setelah Inspeksi: " + stackSizeAfter);
-        System.out.println("Ukuran Stack tetap konsisten: " + (stackSizeBefore == stackSizeAfter));
+        AuditEntry topAfter = auditLog.peek();
+        System.out.println("Size Stack Sebelum/Sesudah  : " + stackSizeBefore + " / " + stackSizeAfter);
+        System.out.println("Elemen Puncak (Top) Tetap   : " + (topBefore == topAfter));
+        System.out.println("Invariant Stack Valid       : " + auditLog.validateInvariant());
 
         //Skenario 7 (Masukkan record yang tidak valid dan tampilkan pesan kesalahan, serta pastikan strukturnya tetap konsisten.)
         System.out.println("\n--- SKENARIO 7 ---");
-        System.out.println("Uji coba...");
+        String invalidCsvRow = "P999,999/Pid.Sus/2026/PN Mlg,PN Malang,2026-13-45,TDRK-999,Sabu,-5.0,Pasal 112,Pasal 112,12,-10,0,Sabu,Memberatkan,Meringankan,Hal 1";
         try {
-            //Simulasi Parsing kolom yang kurang
-            String invalidLine = "P999,Invalid,PN Bali";
-            String[] tokens = invalidLine.split(",");
-            if (tokens.length != 16) {
-                throw new IllegalArgumentException("Jumlah kolom tidak sesuai skema minimum (Hanya " + tokens.length + " kolom).");
-            }
+            Putusan badRecord = CSVImporter.parseRecord(invalidCsvRow);
+            mainStorage.add(badRecord);
         } catch (Exception e) {
-            System.err.println("Pesan Kesalahan Ditangkap: " + e.getMessage());
-            System.out.println("Main storage tetap aman dengan size: " + mainStorage.size());
-            System.out.println("Invariant main storage valid: " + mainStorage.validateInvariant());
+            System.err.println("Record invalid ditolak dengan pesan: " + e.getMessage());
+            System.out.println("Program tetap berjalan | Size storage: " + mainStorage.size()
+                    + " | Invariant valid: " + mainStorage.validateInvariant());
         }
 
         System.out.println("\nSELURUH SKENARIO BERHASIL DIUJI.");
