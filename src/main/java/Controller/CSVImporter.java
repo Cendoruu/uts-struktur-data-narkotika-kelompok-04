@@ -94,4 +94,29 @@ public class CSVImporter {
         }
         return result;
     }
+
+    public static Putusan parseRecord(String line) {
+        String[] cols = parseCsvLine(line);
+        if (cols.length < 16) {
+            throw new IllegalArgumentException("Jumlah kolom kurang dari 16 (ditemukan: " + cols.length + ")");
+        }
+        if (cols[0].isEmpty() || cols[1].isEmpty()) {
+            throw new IllegalArgumentException("caseId atau nomorPerkara tidak boleh kosong.");
+        }
+
+        double berat = Double.parseDouble(cols[6]);
+        int tuntutan = Integer.parseInt(cols[9]);
+        int vonis = Integer.parseInt(cols[10]);
+        long denda = Long.parseLong(cols[11]);
+
+        if (berat < 0 || tuntutan < 0 || vonis < 0 || denda < 0) {
+            throw new IllegalArgumentException("Nilai berat, tuntutan, vonis, atau denda tidak boleh negatif.");
+        }
+
+        return new Putusan(
+                cols[0], cols[1], cols[2], LocalDate.parse(cols[3]), cols[4],
+                cols[5], berat, cols[7], cols[8], tuntutan,
+                vonis, denda, cols[12], cols[13], cols[14], cols[15]
+        );
+    }
 }
