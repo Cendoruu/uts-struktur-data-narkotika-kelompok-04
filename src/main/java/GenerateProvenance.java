@@ -8,7 +8,7 @@ public class GenerateProvenance {
         DynamicArray<Putusan> data = CSVImporter.loadCSV("data/putusan-50.csv");
         ProvenanceController.generateInitialTemplate(
                 data,
-                "docs/adr/data-provenance.csv",
+                "docs/trace/data-provenance.csv",
                 "Firja",
                 "Firja"
         );
