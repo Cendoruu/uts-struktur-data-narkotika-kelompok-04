@@ -27,4 +27,13 @@ public class Exporter {
             System.err.println("Gagal mengekspor file: " + e.getMessage());
         }
     }
+
+    public static void exportReportToTxt(String reportContent, String outputPath) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(outputPath))) {
+            bw.write(reportContent);
+            System.out.println("[INFO EKSPOR] Laporan berhasil disimpan ke: " + outputPath);
+        } catch (IOException e) {
+            System.err.println("Gagal mengekspor laporan teks: " + e.getMessage());
+        }
+    }
 }
